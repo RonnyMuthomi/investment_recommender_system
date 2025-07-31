@@ -1,0 +1,50 @@
+{
+  "low_risk": {
+    "products": [
+      "savings_account",
+      "fixed_deposit",
+      "government_bonds",
+      "money_market"
+    ],
+    "description": "Conservative investments with guaranteed returns",
+    "risk_level": 1,
+    "expected_return": "low",
+    "liquidity": "high"
+  },
+  "medium_risk": {
+    "products": [
+      "corporate_bonds",
+      "balanced_funds",
+      "real_estate_funds",
+      "dividend_stocks"
+    ],
+    "description": "Moderate risk investments with balanced returns",
+    "risk_level": 2,
+    "expected_return": "medium",
+    "liquidity": "medium"
+  },
+  "high_risk": {
+    "products": [
+      "growth_stocks",
+      "equity_funds",
+      "technology_stocks",
+      "startup_investments"
+    ],
+    "description": "High risk investments with potential high returns",
+    "risk_level": 3,
+    "expected_return": "high",
+    "liquidity": "low"
+  },
+  "alternative": {
+    "products": [
+      "real_estate",
+      "commodities",
+      "peer_to_peer_lending",
+      "business_investment"
+    ],
+    "description": "Alternative investments for portfolio diversification",
+    "risk_level": 2,
+    "expected_return": "medium_high",
+    "liquidity": "very_low"
+  }
+}
