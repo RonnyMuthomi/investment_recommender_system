@@ -1,3 +1,4 @@
+import time
 import streamlit as st
 import pandas as pd
 import requests
@@ -73,22 +74,43 @@ def show_register():
         submit_button = st.form_submit_button("Register")
         
         if submit_button:
+            if not username or not email or not password:
+                st.error("Please fill in all fields")
+                return
+                
             if password != confirm_password:
                 st.error("Passwords don't match")
-            else:
+                return
+                
+            if len(password) < 8:
+                st.error("Password must be at least 8 characters")
+                return
+                
+            try:
                 response = requests.post(
                     f"{API_BASE_URL}/register",
                     json={
                         "username": username,
                         "email": email,
                         "password": password
-                    }
+                    },
+                    timeout=5
                 )
                 
                 if response.status_code == 201:
                     st.success("Registration successful! Please login.")
+                    time.sleep(2)
+                    st.experimental_rerun()
                 else:
-                    st.error(response.json().get('message', 'Registration failed'))
+                    error_msg = response.json().get('message', 'Registration failed')
+                    st.error(f"Error: {error_msg}")
+            
+            except requests.exceptions.ConnectionError:
+                st.error("Could not connect to the server. Please try again later.")
+            except requests.exceptions.Timeout:
+                st.error("Request timed out. Please try again.")
+            except Exception as e:
+                st.error(f"An unexpected error occurred: {str(e)}")
 
 def show_recommendations():
     st.title("Your Investment Recommendations")
