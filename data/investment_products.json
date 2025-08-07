@@ -1,0 +1,73 @@
+{
+  "low_risk": {
+    "products": [
+      "savings_account",
+      "fixed_deposit",
+      "government_bonds",
+      "money_market_funds",
+      "treasury_bills"
+    ],
+    "description": "Conservative investments with guaranteed returns",
+    "risk_level": 1,
+    "expected_return": "low",
+    "liquidity": "high",
+    "min_investment": 1000,
+    "target_segment": [
+      "retiree",
+      "conservative"
+    ]
+  },
+  "medium_risk": {
+    "products": [
+      "balanced_funds",
+      "unit_trusts",
+      "reits",
+      "pension_schemes",
+      "cooperative_investments"
+    ],
+    "description": "Moderate risk investments with balanced returns",
+    "risk_level": 2,
+    "expected_return": "medium",
+    "liquidity": "medium",
+    "min_investment": 2000,
+    "target_segment": [
+      "family_oriented",
+      "pre_retirement"
+    ]
+  },
+  "high_risk": {
+    "products": [
+      "equity_funds",
+      "nse_stocks",
+      "commodities",
+      "forex_trading",
+      "business_investment"
+    ],
+    "description": "High risk investments with potential high returns",
+    "risk_level": 3,
+    "expected_return": "high",
+    "liquidity": "low",
+    "min_investment": 5000,
+    "target_segment": [
+      "young_professional",
+      "aggressive"
+    ]
+  },
+  "alternative": {
+    "products": [
+      "real_estate",
+      "agricultural_investment",
+      "education_savings",
+      "digital_assets"
+    ],
+    "description": "Alternative investments for portfolio diversification",
+    "risk_level": 2,
+    "expected_return": "medium_high",
+    "liquidity": "very_low",
+    "min_investment": 10000,
+    "target_segment": [
+      "diversified",
+      "long_term"
+    ]
+  }
+}
