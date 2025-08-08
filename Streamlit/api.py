@@ -96,12 +96,34 @@ async def root():
         }
     }
 
+@app.get("/model-status")
+async def get_model_status():
+    """Get information about loaded ML models"""
+    try:
+        model_info = system.get_model_info()
+        return {
+            "status": "success",
+            "models_loaded": model_info['models_loaded'],
+            "best_model": model_info['best_model'],
+            "available_models": model_info['available_models'],
+            "timestamp": datetime.now()
+        }
+    except Exception as e:
+        return {
+            "status": "error",
+            "message": str(e),
+            "timestamp": datetime.now()
+        }
+
 @app.get("/health")
 async def health_check():
+    model_info = system.get_model_info() if hasattr(system, 'get_model_info') else {}
     return {
         "status": "healthy", 
         "timestamp": datetime.now(),
-        "system_initialized": hasattr(system, 'investment_products')
+        "system_initialized": hasattr(system, 'investment_products'),
+        "models_loaded": model_info.get('models_loaded', False),
+        "best_model": model_info.get('best_model', None)
     }
 
 @app.post("/recommendations", response_model=RecommendationResponse)
