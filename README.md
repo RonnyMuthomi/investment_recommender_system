@@ -5,7 +5,7 @@
 
 ## The Problem
 
-<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/82d4c01a-62f6-4673-8145-2123423d0bf6" />
+<img width="850" height="540" alt="image" src="https://github.com/user-attachments/assets/82d4c01a-62f6-4673-8145-2123423d0bf6" />
 
 
 In Kenya, deciding on the right investment plan is a challenge for many people. While there are a growing number of financial products  such as government bonds, unit trusts, SACCOs, insurance-linked investments, and real estate options  most potential investors still struggle to make informed choices that align with their financial goals and risk appetite. According to a [Central Bank of Kenya Financial Access Survey](https://www.centralbank.go.ke), a significant portion of the population either does not invest at all or chooses investment vehicles that do not meet their long-term objectives. 
@@ -20,7 +20,7 @@ In my own experience engaging with investment discussions in community groups an
 This uncertainty often results in inaction, overreliance on low-yield savings accounts, or rushed decisions into high-risk investments. Even for those who do invest, the lack of a structured decision-making process means their choices are often not aligned with their income level, future plans, or personal risk tolerance. **Without tools that simplify comparison and provide data-driven recommendations, many Kenyans are unable to make optimal investment decisions.**
 
 
-<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/d7d08fc7-f08c-4149-a725-490a707fbd6d" />
+<img width="850" height="540" alt="image" src="https://github.com/user-attachments/assets/d7d08fc7-f08c-4149-a725-490a707fbd6d" />
 
 
 ## Business Understanding
@@ -31,7 +31,7 @@ Several factors have contributed to this situation. First, while financial insti
 
 The FinAccess data also highlights an interesting behavioral trend: **many Kenyans choose "safe" investment options by default, even when higher-return opportunities with manageable risk are available**. For example, despite the steady returns from regulated unit trusts or government bonds, uptake remains low compared to informal savings channels. This shows that the challenge is not simply increasing product availability, but helping citizens match products to their financial profiles.
 
-<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/2ea9ab7b-8ce5-4611-b03e-a3a696f5b93c" />
+<img width="850" height="540" alt="image" src="https://github.com/user-attachments/assets/2ea9ab7b-8ce5-4611-b03e-a3a696f5b93c" />
 
 
 At the same time, there is a growing national push toward financial inclusion and digital finance adoption. The Central Bank of Kenya, in partnership with FSD Kenya and the Kenya National Bureau of Statistics, continues to track financial behavior trends, providing a rich dataset that can be leveraged to create intelligent decision-support tools. With the rise of mobile technology, there is an opportunity to reach millions of people with personalized investment recommendations bridging the gap between financial products and consumer understanding.
@@ -42,7 +42,7 @@ An **Investment Plan Recommender System** could help solve this challenge. By an
 
 The goal of this project is to build a data-driven model that recommends optimal investment plans for individuals based on their unique financial profiles. Using publicly available datasets such as the 2024 FinAccess Household Survey, we aim to identify patterns in investment behavior, segment investors by risk preference, and map suitable products to these segments. 
 
-<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/7579156d-4fda-4c7c-a341-3d39f4c6ca2b" />
+<img width="850" height="540" alt="image" src="https://github.com/user-attachments/assets/7579156d-4fda-4c7c-a341-3d39f4c6ca2b" />
 
 The model will focus on:
 - **Accuracy**: Recommending plans that truly match the investor’s profile.
@@ -51,18 +51,58 @@ The model will focus on:
 
 Ultimately, the system will serve as a prototype for a mobile or web-based advisory tool, giving Kenyans the confidence to make informed investment choices — and in turn, driving higher participation in formal financial markets.
 
+## Data Understanding & Preprocessing
 
-## 🚀 Features
+The dataset used in this project was derived from national financial access survey data, containing information on respondents’ demographics, income levels, financial literacy, savings habits, and previous investment behaviors. Initial exploration revealed that the data included both relevant and irrelevant variables, as well as inconsistencies in formatting and missing values. Key fields influencing investment decisions such as age, gender, income bracket, risk appetite, location, and financial product usage  were identified and retained, while unrelated survey questions, administrative codes, and non-financial attributes were removed to reduce noise and improve model efficiency.[FinAccess Household Survey](https://fsdkenya.org/publication/2024-finaccess-household-survey/)
 
-- **🤖 AI-Powered Analysis**: Advanced machine learning models for investment recommendations
-- **📊 Personalized Recommendations**: Tailored suggestions based on user profile
-- **🎯 Risk-Adjusted Options**: Investment categories matched to risk tolerance
-- **📈 Multiple Investment Categories**: From low-risk to high-growth options
-- **🌐 Web Interface**: User-friendly Streamlit application
-- **🔌 REST API**: FastAPI backend for integration
-- **📋 Model Pipeline**: Automated preprocessing and prediction
+Preprocessing began with a comprehensive cleaning process to ensure consistency and reliability. Categorical values were standardized (such as consolidating variations such as `"M"`, `"Male"`, and `"m"` into a single `"Male"` category), and numerical fields were formatted uniformly. Missing values were handled using context-appropriate strategies, including imputation for incomplete income data and removal of records lacking critical decision-making attributes. Duplicate entries were eliminated to prevent model bias.
 
-## 🏗️ System Architecture
+<img width="1489" height="989" alt="image" src="https://github.com/user-attachments/assets/3f49e7d3-7bcf-4e55-8e1e-f676bee85fdd" />
+
+Feature engineering was applied to enhance predictive capability, including the creation of composite indicators such as an **Investment Readiness Score** and a **Risk Category** derived from multiple survey responses. Categorical data was encoded into numerical form for machine learning compatibility, and continuous variables such as income were normalized to maintain scale consistency. Finally, the dataset was split into training, validation, and testing sets, ensuring robust model evaluation and reducing the risk of overfitting.
+
+
+### EDA
+
+An exploratory data analysis (EDA) was conducted to gain insights into the dataset and to identify patterns that could influence investment plan recommendations. The target variable represented the preferred investment plan for each respondent, covering categories such as savings accounts, fixed deposits, government bonds, mutual funds, stocks, and real estate. The class distribution showed that low-risk investments like savings accounts and fixed deposits had slightly higher representation, while high-risk investments such as stocks and mutual funds were less frequent. Although this introduced some imbalance, the distribution remained sufficient to avoid extreme model bias.
+
+The dataset included both demographic and behavioral features, such as age group, gender, location (urban vs. rural), income level, education level, financial literacy score, and risk appetite. Behavioral and financial variables like monthly savings, prior investment experience, and access to financial advisory services were also present, enabling the model to capture nuanced decision-making patterns. Income level, risk appetite, and financial literacy emerged as the strongest influencers of investment preferences, with higher-income respondents tending toward diversified portfolios and lower-income groups favoring safer, guaranteed-return options.
+
+Visualization of feature distributions revealed clear trends: younger respondents (ages 18–30) showed greater interest in moderate-to-high risk investments, while older respondents (50+) leaned toward low-risk, fixed-income instruments. A correlation heatmap further confirmed the strong positive relationship between income and high-risk investment selection, and a negative relationship between low financial literacy and complex investment products. Outliers were minimal and largely tied to extreme income values, which were retained as they represent realistic, albeit rare, market segments.
+
+<img width="990" height="589" alt="image" src="https://github.com/user-attachments/assets/ca7b28c4-580b-48d1-83a1-9ae117f09228" />
+
+The overall analysis indicated that the dataset was rich in predictive features, relatively clean, and sufficiently diverse to allow the model to learn both general and niche investment behaviors. These insights also guided preprocessing steps, such as scaling numeric features, encoding categorical variables, and handling mild class imbalance, to prepare the data for model training.
+
+
+
+## Modeling
+
+The modeling phase focused on selecting, training, and evaluating algorithms that could accurately predict a user’s ideal investment plan based on their demographic, financial, and behavioral profile. Multiple supervised learning algorithms were explored, including Decision Tree, Random Forest, Gradient Boosting, Logistic Regression, and a simple Neural Network. Each model was trained using the preprocessed dataset, which included encoded categorical features, scaled numeric variables, and balanced classes to minimize bias.
+
+The training process was iterative: hyperparameter tuning was performed via grid search and cross-validation to optimize performance, and evaluation metrics such as F1-score, accuracy, and confusion matrices were used to assess model effectiveness. Ensemble methods such as Random Forest and Gradient Boosting consistently achieved the highest scores, benefiting from their ability to capture non-linear relationships between features and the target variable.
+
+<img width="1189" height="390" alt="image" src="https://github.com/user-attachments/assets/bed60146-3566-4351-bfb0-6d209fb8bd5b" />
+
+Once the best-performing models were identified, the configuration, preprocessing pipeline, and trained model objects were serialized into `.pkl` files for reproducibility and deployment. This ensured that the production environment would mirror the training setup, enabling consistent and reliable predictions in real-world use.
+
+<img width="790" height="540" alt="image" src="https://github.com/user-attachments/assets/0242e1f3-eaf8-4eb9-a3a2-da280aa37a93" />
+
+
+## Deployment
+
+The deployment strategy was designed to make the recommender system accessible via both an API and a user-friendly web interface. The backend API, built with FastAPI, served as the prediction engine, exposing endpoints for submitting user profile data and returning investment recommendations in real time. This API also included built-in documentation, health check endpoints, and CORS configuration to enable seamless integration with the frontend.
+
+The frontend interface was developed using Streamlit, offering an interactive form for users to enter their financial and demographic information. Upon submission, the form communicates with the API to fetch the recommended investment plan, which is then displayed instantly to the user. The deployment pipeline ensured that both components — the API and Streamlit application — could run locally or be containerized for cloud hosting.
+
+**Deployment workflow:**
+1. **Train the model** by running all cells in `index.ipynb` to generate deployment-ready `.pkl` files.
+2. **Start the API server**:
+   ```bash
+   cd streamlit
+   python api.py
+
+## System Architecture
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Streamlit     │    │    FastAPI      │    │  ML Models      │
@@ -75,119 +115,3 @@ Ultimately, the system will serve as a prototype for a mobile or web-based advis
 ```
 
 
-## 📋 Prerequisites
-
-- Python 3.11 or higher
-- pip (Python package installer)
-- Git (for cloning the repository)
-
-## 🛠️ Installation
-
-### 1. Clone the Repository
-```bash
-git clone <repository-url>
-```
-
-### 2. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### 3. Train the Model
-Before deployment, you need to train the model:
-
-1. Open `index.ipynb` in Jupyter Notebook or JupyterLab
-2. Run all cells to train the models and generate deployment files
-3. Ensure the following files are created in the `deployment/` directory:
-   - `investment_model_config.pkl`
-   - `investment_model_pipelines.pkl`
-   - `investment_model_preprocessor.pkl`
-
-## 🚀 Quick Deployment
-
-
-#### Start the API Server
-```bash
-cd streamlit
-python api.py
-```
-
-The API will be available at:
-- **API**: http://localhost:8000
-- **Documentation**: http://localhost:8000/docs
-- **Health Check**: http://localhost:8000/health
-
-#### Start the Streamlit App
-```bash
-cd streamlit
-streamlit run streamlit.py
-```
-
-The web interface will be available at:
-- **Web App**: http://localhost:8501
-
-## 🔧 Configuration
-
-### Model Configuration
-The system uses the best performing model from training:
-- Decision Tree (default)
-- Random Forest
-- Gradient Boosting
-- Logistic Regression
-- Neural Network
-
-### API Configuration
-- **Host**: localhost (configurable)
-- **Port**: 8000 (configurable)
-- **CORS**: Enabled for web app integration
-
-### Streamlit Configuration
-- **Port**: 8501 (configurable)
-- **Theme**: Light mode
-- **Layout**: Wide layout for better UX
-
-### Web App Testing
-1. Open http://localhost:8501
-2. Fill out the user profile form
-3. Submit to get recommendations
-4. Verify the results are displayed correctly
-
-## 📈 Model Performance
-
-The system includes multiple models with the following performance metrics:
-
-- **Decision Tree**: F1 Score: 1.000
-- **Random Forest**: F1 Score: 1.000
-- **Gradient Boosting**: F1 Score: 1.000
-- **Logistic Regression**: F1 Score: 0.930
-- **Neural Network**: F1 Score: 0.995
-
-## 🔒 Security Considerations
-
-- Input validation on all API endpoints
-- CORS configuration for web app integration
-- Error handling and logging
-- Data privacy protection
-
-## 🚨 Disclaimer
-
-This system provides educational investment recommendations only. Users should:
-- Consult with qualified financial advisors before making investment decisions
-- Conduct their own research and due diligence
-- Understand that past performance doesn't guarantee future results
-- Consider their personal financial situation and risk tolerance
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
-## 📞 Support
-
-For technical support or questions:
-- Check the API documentation at http://localhost:8000/docs
-- Review the model training notebook for implementation details
-- Ensure all dependencies are properly installed
