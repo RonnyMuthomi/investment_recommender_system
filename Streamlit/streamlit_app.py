@@ -28,7 +28,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-st.markdown("<h1 style='text-align: center;'>🇰🇪 Kenya Investment Advisor</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>🏛️ Kenya Investment Advisor</h1>", unsafe_allow_html=True)
 
 # Custom CSS
 st.markdown("""
@@ -87,16 +87,21 @@ st.markdown("""
 if "page" not in st.session_state:
     st.session_state.page = "🏠 Home"
 
-# --- Horizontal Navigation Bar ---
-nav_items = ["🏠 Home", "💼 Get Investment Recommendations", "📊 Investment Options", "ℹ️ About Us", "📞 Contact"]
-nav_cols = st.columns(len(nav_items))
+# --- Sidebar Navigation ---
+with st.sidebar:
+    st.header("Navigation")
 
-for i, item in enumerate(nav_items):
-    if nav_cols[i].button(item):
-        st.session_state.page = item
+    page = st.radio(
+        "Menu",
+        options=["🏠 Home", "💼 Recommendations", "📊 Investments", "ℹ️ About Us", "📞 Contact"],
+        key="nav_radio"
+    )
 
-# --- Divider ---
-st.markdown("---")
+    st.session_state.page = page
+    st.markdown("---")
+    
+    # You can add other sidebar elements here if needed
+    st.write("Kenya Investment Recommender")
 
 # --- Render content based on current page ---
 page = st.session_state.page
@@ -112,11 +117,11 @@ if 'page' in locals():
 if page == "🏠 Home":
     st.subheader("Welcome to the Kenya Investment Recommender System")
     st.write("This tool helps you find the best investment options based on your preferences.")
-elif page == "💼 Get Investment Recommendations":
+elif page == "💼 Recommendations":
     st.subheader("Investment Recommendations")
     st.write("Here you will get personalized investment suggestions.")
     # Add your recommendation logic or function here
-elif page == "📊 Investment Options":
+elif page == "📊 Investments":
     st.subheader("Available Investment Options")
     st.write("Explore various investment products available in Kenya.")
     # Add your data display or plots here
@@ -126,31 +131,6 @@ elif page == "ℹ️ About Us":
 elif page == "📞 Contact":
     st.subheader("Contact")
     st.write("Reach out to us at: [support@example.com](mailto:support@example.com) or call +254-700-000-000")
-
-
-# # Handle default page (e.g., on first load)
-# if "page" not in st.session_state:
-#     st.session_state.page = "🏠 Home"
-
-# # Update session state with selection
-# if 'page' in locals():
-#     st.session_state.page = page
-
-# # Route content based on selected page
-# if st.session_state.page == "🏠 Home":
-#     st.write("# Welcome to the Home Page")
-
-# elif st.session_state.page == "💼 Get Investment Recommendations":
-#     st.write("# Get Your Personalized Investment Recommendations")
-
-# elif st.session_state.page == "📊 Investment Options":
-#     st.write("# Explore Investment Options")
-
-# elif st.session_state.page == "ℹ️ About Us":
-#     st.write("# About Our Company")
-
-# elif st.session_state.page == "📞 Contact":
-#     st.write("# Contact Us")
 
 
 # Initialize session state
@@ -164,13 +144,12 @@ system = load_system()
 
 # HOME PAGE
 if page == "🏠 Home":
-    st.markdown('<h1 class="main-header">🏛️ Kenya Investment Advisor</h1>', unsafe_allow_html=True)
-    
+        
     col1, col2, col3 = st.columns([1, 2, 1])
     
     st.markdown("""
     <div class="card">
-        <h2>Welcome to Your Personal Investment Guide</h2>
+        <h2>Your Personal Investment Guide</h2>
         <p style="font-size: 1.2rem;">
             Make informed investment decisions with our AI-powered recommendation system, 
             specifically designed for the Kenyan market. Get personalized advice based on 
@@ -247,8 +226,8 @@ if page == "🏠 Home":
     
 
 # INVESTMENT RECOMMENDATIONS PAGE
-elif page == "💼 Get Investment Recommendations":
-    st.markdown('<h1 class="main-header">💼 Get Your Investment Recommendations</h1>', unsafe_allow_html=True)
+elif page == "💼 Recommendations":
+    st.markdown('<h1 class="main-header">Get Your Investment Recommendations</h1>', unsafe_allow_html=True)
     
     # Progress bar
     progress = (st.session_state.current_step - 1) / 4
@@ -554,7 +533,7 @@ elif page == "💼 Get Investment Recommendations":
             )
 
 # INVESTMENT OPTIONS PAGE
-elif page == "📊 Investment Options":
+elif page == "📊 Investments":
     st.markdown('<h1 class="main-header">📊 Kenya Investment Options Guide</h1>', unsafe_allow_html=True)
     
     # Filter options
@@ -741,36 +720,43 @@ elif page == "ℹ️ About Us":
         """, unsafe_allow_html=True)
     
     # Technology section
-    st.markdown('<h2 class="sub-header">🔧 Technology Stack</h2>', unsafe_allow_html=True)
+    if hasattr(system, 'get_model_info'):
+        model_info = system.get_model_info()
+        
+        st.markdown('<h2 class="sub-header">🤖 AI System Status</h2>', unsafe_allow_html=True)
+        
+        col1, col2 = st.columns(2)
+        with col1:
+            if model_info['models_loaded']:
+                st.markdown("""
+                <div class="card">
+                    <h3>✅ Advanced ML Models Active</h3>
+                    <p>Using trained machine learning models for enhanced prediction accuracy.</p>
+                    <p><strong>Active Model:</strong> {}</p>
+                </div>
+                """.format(model_info['best_model']), unsafe_allow_html=True)
+            else:
+                st.markdown("""
+                <div class="card">
+                    <h3>📊 Rule-Based System Active</h3>
+                    <p>Using expert-designed rules and heuristics for reliable recommendations.</p>
+                </div>
+                """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+            <div class="card">
+                <h3>Development Framework</h3>
+                <ul>
+                    <li>Python for backend processing</li>
+                    <li>Streamlit for user interface</li>
+                    <li>Scikit-learn for machine learning</li>
+                    <li>Plotly for data visualization</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
     
-    col1, col2 = st.columns(2)
-    
-    with col1:
-        st.markdown("""
-        <div class="card">
-            <h3>Machine Learning Models</h3>
-            <ul>
-                <li>Logistic Regression for risk assessment</li>
-                <li>Random Forest for complex pattern recognition</li>
-                <li>Gradient Boosting for enhanced accuracy</li>
-                <li>Collaborative filtering for personalization</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div class="card">
-            <h3>Development Framework</h3>
-            <ul>
-                <li>Python for backend processing</li>
-                <li>Streamlit for user interface</li>
-                <li>Scikit-learn for machine learning</li>
-                <li>Plotly for data visualization</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-    
+       
     # Team section (placeholder)
     st.markdown('<h2 class="sub-header">👥 Our Commitment</h2>', unsafe_allow_html=True)
     
