@@ -1,7 +1,56 @@
-# Investment Recommendation System
-A personalized investment recommender system for Kenyan investors, built using CRISP-DM methodology. Combines risk profiling, financial goal forecasting, liquidity analysis, and hybrid recommendation algorithms to deliver tailored investment advice across SACCOs, MMFs, stocks, T-bills, and more.
+#  Smart Investment Plan Recommender
 
-An AI-powered investment recommendation system that provides personalized investment suggestions based on user profiles and financial data.
+##  Personalized Investment Strategy Recommendation Using Machine Learning
+
+
+## The Problem
+
+<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/82d4c01a-62f6-4673-8145-2123423d0bf6" />
+
+
+In Kenya, deciding on the right investment plan is a challenge for many people. While there are a growing number of financial products  such as government bonds, unit trusts, SACCOs, insurance-linked investments, and real estate options  most potential investors still struggle to make informed choices that align with their financial goals and risk appetite. According to a [Central Bank of Kenya Financial Access Survey](https://www.centralbank.go.ke), a significant portion of the population either does not invest at all or chooses investment vehicles that do not meet their long-term objectives. 
+
+One of the most common reasons is **limited access to clear, comparative, and personalized investment information**. Many Kenyans rely on word-of-mouth recommendations or informal advice, which can lead to mismatched investments, poor returns, and in some cases, complete loss of capital. A 2023 report by [FSD Kenya](https://fsdkenya.org) revealed that less than 30% of respondents felt confident that they understood the risks and returns of the investment products they had chosen. Furthermore, **hidden fees, unclear terms, and the absence of tailored financial guidance** remain major deterrents for those who wish to start investing.
+
+In my own experience engaging with investment discussions in community groups and online forums, I have observed that most potential investors ask the same questions:  
+- *“Which investment plan will give me the best returns?”*  
+- *“Is this option safe or is it a scam?”*  
+- *“How do I compare different plans fairly?”*  
+
+This uncertainty often results in inaction, overreliance on low-yield savings accounts, or rushed decisions into high-risk investments. Even for those who do invest, the lack of a structured decision-making process means their choices are often not aligned with their income level, future plans, or personal risk tolerance. **Without tools that simplify comparison and provide data-driven recommendations, many Kenyans are unable to make optimal investment decisions.**
+
+
+<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/d7d08fc7-f08c-4149-a725-490a707fbd6d" />
+
+
+## Business Understanding
+
+Over the past decade, Kenya’s financial landscape has rapidly expanded, offering citizens a wide range of investment opportunities. Products such as government bonds, treasury bills, unit trusts, SACCO savings, insurance-linked investments, and real estate ventures have become increasingly accessible to the public. According to the 2024 [FinAccess Household Survey](https://fsdkenya.org/publication/2024-finaccess-household-survey/), the proportion of Kenyans who have ever invested in a formal financial product has grown steadily yet nearly **40% of adults still rely exclusively on low-interest savings accounts or informal savings groups (chamas)**. This gap is not simply due to lack of funds; it is often driven by a shortage of clear, personalized, and easily comparable investment information.
+
+Several factors have contributed to this situation. First, while financial institutions market their products widely, the details are often presented in complex terms that are difficult for the average consumer to interpret. Second, most potential investors rely heavily on word-of-mouth recommendations from friends or family, which, while trustworthy, may not align with their financial goals or risk tolerance. Third, hidden costs, unclear contract terms, and inconsistent guidance from advisors create barriers that discourage first-time investors from exploring higher-yield opportunities. 
+
+The FinAccess data also highlights an interesting behavioral trend: **many Kenyans choose "safe" investment options by default, even when higher-return opportunities with manageable risk are available**. For example, despite the steady returns from regulated unit trusts or government bonds, uptake remains low compared to informal savings channels. This shows that the challenge is not simply increasing product availability, but helping citizens match products to their financial profiles.
+
+<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/2ea9ab7b-8ce5-4611-b03e-a3a696f5b93c" />
+
+
+At the same time, there is a growing national push toward financial inclusion and digital finance adoption. The Central Bank of Kenya, in partnership with FSD Kenya and the Kenya National Bureau of Statistics, continues to track financial behavior trends, providing a rich dataset that can be leveraged to create intelligent decision-support tools. With the rise of mobile technology, there is an opportunity to reach millions of people with personalized investment recommendations bridging the gap between financial products and consumer understanding.
+
+An **Investment Plan Recommender System** could help solve this challenge. By analyzing a potential investor’s income, goals, time horizon, and risk appetite, such a system could recommend a short, ranked list of suitable investment options. This would reduce decision-making complexity, empower first-time investors, and improve portfolio quality for seasoned ones.
+
+## Purpose of Analysis
+
+The goal of this project is to build a data-driven model that recommends optimal investment plans for individuals based on their unique financial profiles. Using publicly available datasets such as the 2024 FinAccess Household Survey, we aim to identify patterns in investment behavior, segment investors by risk preference, and map suitable products to these segments. 
+
+<img width="850" height="380" alt="image" src="https://github.com/user-attachments/assets/7579156d-4fda-4c7c-a341-3d39f4c6ca2b" />
+
+The model will focus on:
+- **Accuracy**: Recommending plans that truly match the investor’s profile.
+- **Personalization**: Factoring in income, age, goals, and risk tolerance.
+- **Trust**: Ensuring recommendations are drawn from credible, regulated financial products.
+
+Ultimately, the system will serve as a prototype for a mobile or web-based advisory tool, giving Kenyans the confidence to make informed investment choices — and in turn, driving higher participation in formal financial markets.
+
 
 ## 🚀 Features
 
