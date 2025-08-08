@@ -1,4 +1,4 @@
-#  Smart Investment Plan Recommender
+#  Investment Recommender System
 
 ##  Personalized Investment Strategy Recommendation Using Machine Learning
 
@@ -63,23 +63,6 @@ Ultimately, the system will serve as a prototype for a mobile or web-based advis
 - **📋 Model Pipeline**: Automated preprocessing and prediction
 
 ## 🏗️ System Architecture
-
-```
-Investment_Project/
-├── streamlit/
-│   └── api.py                  # FastAPI backend
-│   ├── streamlit.py            # Main recommendation interface
-│   └── Investment_System.py    # Investment information
-├── deployment/
-│   ├── investment_model_config.pkl      # Model configuration
-│   ├── investment_model_pipelines.pkl   # Trained model pipelines
-│   └── investment_model_preprocessor.pkl # Data preprocessing pipeline
-├── data/                       # Training and test data
-├── index.ipynb                 # Model training notebook
-├── requirements.txt            # Python dependencies
-├── deploy.py                   # Deployment script
-└── README.md                   # This file
-```
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Streamlit     │    │    FastAPI      │    │  ML Models      │
