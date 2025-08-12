@@ -5,7 +5,7 @@
 
 ## The Problem
 
-<img width="850" height="300" alt="image" src="https://github.com/user-attachments/assets/82d4c01a-62f6-4673-8145-2123423d0bf6" />
+<img width="850" height="540" alt="image" src="https://github.com/user-attachments/assets/82d4c01a-62f6-4673-8145-2123423d0bf6" />
 
 
 In Kenya, deciding on the right investment plan is a challenge for many people. While there are a growing number of financial products  such as government bonds, unit trusts, SACCOs, insurance-linked investments, and real estate options  most potential investors still struggle to make informed choices that align with their financial goals and risk appetite. According to a [Central Bank of Kenya Financial Access Survey](https://www.centralbank.go.ke), a significant portion of the population either does not invest at all or chooses investment vehicles that do not meet their long-term objectives. 
