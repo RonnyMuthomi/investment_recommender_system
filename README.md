@@ -114,4 +114,4 @@ The frontend interface was developed using Streamlit, offering an interactive fo
                         
 ```
 
-
+## Trello: https://trello.com/invite/b/687e6ba12d7da497b58048ff/ATTI47fd038ea4261acc4a27134878a356c8E95E7988/group-4-phase-5
