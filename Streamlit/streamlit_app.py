@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_js_eval import streamlit_js_eval
 import pandas as pd
 import numpy as np
 from datetime import datetime
@@ -30,8 +31,300 @@ st.set_page_config(
 
 st.markdown("<h1 style='text-align: center;'>🏛️ Kenya Investment Advisor</h1>", unsafe_allow_html=True)
 
-# Custom CSS
-st.markdown("""
+# Initialize theme state
+if 'theme' not in st.session_state:
+    st.session_state.theme = 'light'
+
+# Theme-adaptive CSS function
+def get_theme_css(theme):
+    if theme == 'dark':
+        return """
+<style>
+    /* Main content styling */
+    .main-header {
+        font-size: 3rem;
+        color: #4CAF50;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    .sub-header {
+        font-size: 1.5rem;
+        color: #81C784;
+        margin-bottom: 1rem;
+    }
+    .card {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        border-left: 4px solid #4CAF50;
+        margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(76, 175, 80, 0.1);
+    }
+    .metric-card {
+        background: linear-gradient(45deg, #4CAF50, #66BB6A);
+        color: white;
+        padding: 1rem;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+    }
+    .risk-low {
+        border-left-color: #4CAF50;
+    }
+    .risk-medium {
+        border-left-color: #FF9800;
+    }
+    .risk-high {
+        border-left-color: #F44336;
+    }
+    .risk-very-high {
+        border-left-color: #9C27B0;
+    }
+    
+    /* App background */
+    .stApp {
+        background-color: #1e1e1e;
+        color: #ffffff;
+    }
+    
+    /* Sidebar styling */
+    .css-1d391kg, .css-1cypcdb {
+        background-color: #2d2d2d !important;
+    }
+    section[data-testid="stSidebar"] {
+        background-color: #2d2d2d !important;
+    }
+    section[data-testid="stSidebar"] > div {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    
+    /* Sidebar text and headers */
+    .css-1cypcdb h1, .css-1cypcdb h2, .css-1cypcdb h3, .css-1cypcdb h4, .css-1cypcdb h5, .css-1cypcdb h6 {
+        color: #ffffff !important;
+    }
+    .css-1cypcdb p, .css-1cypcdb div, .css-1cypcdb span {
+        color: #ffffff !important;
+    }
+    
+    /* Header area */
+    header[data-testid="stHeader"] {
+        background-color: #1e1e1e !important;
+    }
+    
+    /* Main content area */
+    .main .block-container {
+        background-color: #1e1e1e;
+    }
+    
+    /* Radio buttons in sidebar */
+    .css-1cypcdb .stRadio > div {
+        background-color: transparent !important;
+    }
+    .css-1cypcdb .stRadio label {
+        color: #ffffff !important;
+    }
+    
+    /* Form inputs */
+    .stSelectbox > div > div {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+        border: 1px solid #4CAF50 !important;
+    }
+    .stSelectbox label {
+        color: #ffffff !important;
+    }
+    /* Selectbox dropdown options - comprehensive targeting */
+    .stSelectbox div[data-baseweb="select"] > div {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    .stSelectbox div[data-baseweb="select"] ul {
+        background-color: #2d2d2d !important;
+    }
+    .stSelectbox div[data-baseweb="select"] li {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    .stSelectbox div[data-baseweb="select"] li:hover {
+        background-color: #4CAF50 !important;
+        color: #ffffff !important;
+    }
+    /* Additional dropdown targeting */
+    div[role="listbox"] {
+        background-color: #2d2d2d !important;
+        border: 1px solid #4CAF50 !important;
+    }
+    div[role="option"] {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    div[role="option"]:hover {
+        background-color: #4CAF50 !important;
+        color: #ffffff !important;
+    }
+    /* Base Web select component styling */
+    [data-baseweb="select"] [data-baseweb="popover"] {
+        background-color: #2d2d2d !important;
+    }
+    [data-baseweb="select"] [data-baseweb="menu"] {
+        background-color: #2d2d2d !important;
+        border: 1px solid #4CAF50 !important;
+    }
+    [data-baseweb="menu"] > ul {
+        background-color: #2d2d2d !important;
+    }
+    [data-baseweb="menu-item"] {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    [data-baseweb="menu-item"]:hover {
+        background-color: #4CAF50 !important;
+        color: #ffffff !important;
+    }
+    /* Universal dropdown styling */
+    .css-1wa3eu0-placeholder, .css-1uccc91-singleValue {
+        color: #ffffff !important;
+    }
+    .css-1pahdxg-control {
+        background-color: #2d2d2d !important;
+        border: 1px solid #4CAF50 !important;
+    }
+    .css-1n7v3ny-option {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    .css-1n7v3ny-option:hover {
+        background-color: #4CAF50 !important;
+        color: #ffffff !important;
+    }
+    /* Streamlit select widget specific */
+    .stSelectbox > div > div > div {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    .stSelectbox div[data-testid="stSelectbox"] > div > div {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    .stTextInput > div > div > input {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        border: 1px solid #4CAF50;
+    }
+    .stTextInput label {
+        color: #ffffff !important;
+    }
+    .stTextArea > div > div > textarea {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        border: 1px solid #4CAF50;
+    }
+    .stTextArea label {
+        color: #ffffff !important;
+    }
+    .stNumberInput > div > div > input {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        border: 1px solid #4CAF50;
+    }
+    .stNumberInput label {
+        color: #ffffff !important;
+    }
+    .stMultiSelect > div > div {
+        background-color: #2d2d2d;
+        color: #ffffff;
+        border: 1px solid #4CAF50;
+    }
+    .stMultiSelect label {
+        color: #ffffff !important;
+    }
+    .stCheckbox label {
+        color: #ffffff !important;
+    }
+    
+    /* Form labels and text */
+    .stForm label {
+        color: #ffffff !important;
+    }
+    
+    /* Expander styling */
+    div[data-testid="stExpander"] {
+        background-color: #2d2d2d;
+        border: 1px solid #4CAF50;
+    }
+    div[data-testid="stExpander"] > div:first-child {
+        background-color: #2d2d2d;
+        color: #ffffff;
+    }
+    div[data-testid="stExpander"] summary {
+        color: #ffffff !important;
+    }
+    
+    /* Progress bar */
+    .stProgress .st-bo {
+        background-color: #4CAF50 !important;
+    }
+    
+    /* Metrics */
+    div[data-testid="metric-container"] {
+        background-color: #2d2d2d;
+        border: 1px solid #4CAF50;
+        padding: 1rem;
+        border-radius: 5px;
+    }
+    div[data-testid="metric-container"] > label {
+        color: #81C784 !important;
+    }
+    div[data-testid="metric-container"] > div {
+        color: #ffffff !important;
+    }
+    
+    /* Buttons */
+    .stButton > button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+    }
+    .stButton > button:hover {
+        background-color: #45a049;
+    }
+    
+    /* Download button */
+    .stDownloadButton > button {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+    }
+    
+    /* Global dropdown styling - most aggressive approach */
+    * [data-baseweb="select"] * {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    * [data-baseweb="menu"] * {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    * [data-baseweb="popover"] * {
+        background-color: #2d2d2d !important;
+        color: #ffffff !important;
+    }
+    
+    /* General text */
+    p, div, span, li {
+        color: #ffffff;
+    }
+    
+    /* Headers in main content */
+    h1, h2, h3, h4, h5, h6 {
+        color: #ffffff !important;
+    }
+</style>
+"""
+    else:  # light theme
+        return """
 <style>
     .main-header {
         font-size: 3rem;
@@ -46,10 +339,12 @@ st.markdown("""
     }
     .card {
         background-color: #f8f9fa;
+        color: #333333;
         padding: 1.5rem;
         border-radius: 10px;
         border-left: 4px solid #2E8B57;
         margin-bottom: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
     .metric-card {
         background: linear-gradient(45deg, #2E8B57, #4682B4);
@@ -57,6 +352,7 @@ st.markdown("""
         padding: 1rem;
         border-radius: 10px;
         text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     }
     .risk-low {
         border-left-color: #28a745;
@@ -70,38 +366,58 @@ st.markdown("""
     .risk-very-high {
         border-left-color: #6f42c1;
     }
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        background-color: #2E8B57;
-        color: white;
-        text-align: center;
-        padding: 10px 0;
-    }
 </style>
-""", unsafe_allow_html=True)
+"""
+
+# Apply theme CSS
+st.markdown(get_theme_css(st.session_state.theme), unsafe_allow_html=True)
 
 # --- Initialize session state for navigation ---
+if "theme" not in st.session_state:
+    # Detect system theme on first load
+    system_dark = streamlit_js_eval(
+        js_expressions="window.matchMedia('(prefers-color-scheme: dark)').matches",
+        key="system_theme"
+    )
+    if system_dark is not None:
+        st.session_state.theme = "dark" if system_dark else "light"
+    else:
+        st.session_state.theme = "light"  # fallback
+
 if "page" not in st.session_state:
     st.session_state.page = "🏠 Home"
 
+st.markdown(get_theme_css(st.session_state.theme), unsafe_allow_html=True)
+
 # --- Sidebar Navigation ---
 with st.sidebar:
+    # Theme toggle button at the top
+    col1, col2 = st.columns([1, 2])
+    with col1:
+        if st.button("🌓", help="Toggle Theme"):
+            current_page = st.session_state.page
+            st.session_state.theme = ('dark' if st.session_state.theme == 'light' else 'light')
+            st.session_state.page = current_page
+            st.rerun()
+    with col2:
+        st.write(f"Theme: {st.session_state.theme.title()}")
+    
+    st.markdown("---")
+    
     st.header("Navigation")
 
     page = st.radio(
         "Menu",
         options=["🏠 Home", "💼 Recommendations", "📊 Investments", "ℹ️ About Us", "📞 Contact"],
+        index=["🏠 Home", "💼 Recommendations", "📊 Investments", "ℹ️ About Us", "📞 Contact"].index(st.session_state.page),
         key="nav_radio"
     )
-
-    st.session_state.page = page
+    if page != st.session_state.page:
+        st.session_state.page = page
     st.markdown("---")
     
     # You can add other sidebar elements here if needed
-    st.write("Kenya Investment Recommender")
+    st.write("Kenya Investment Recommender System")
 
 # --- Render content based on current page ---
 page = st.session_state.page
@@ -242,34 +558,53 @@ elif page == "💼 Recommendations":
         col1, col2 = st.columns(2)
         
         with col1:
-            name = st.text_input("Full Name", value=st.session_state.user_profile.get('name', ''))
-            age = st.number_input("Age", min_value=18, max_value=100, 
-                                value=st.session_state.user_profile.get('age', 30))
-            location = st.selectbox("Location Type", 
-                                  ["Urban", "Semi-Urban", "Rural"],
-                                  index=["Urban", "Semi-Urban", "Rural"].index(
+            name = st.text_input("Full Name *", value=st.session_state.user_profile.get('name', ''), help="Required field")
+            age = st.number_input("Age *", min_value=18, max_value=100, 
+                                value=st.session_state.user_profile.get('age', 30), help="Required field")
+            location = st.selectbox("Location Type *", 
+                                  ["Please select...", "Urban", "Semi-Urban", "Rural"],
+                                  index=0 if st.session_state.user_profile.get('location', '') == '' else 
+                                  ["Please select...", "Urban", "Semi-Urban", "Rural"].index(
                                       st.session_state.user_profile.get('location', 'Urban')))
         
         with col2:
-            education = st.selectbox("Education Level", 
-                                   ["Primary", "Secondary", "College/University", "Postgraduate"],
-                                   index=["Primary", "Secondary", "College/University", "Postgraduate"].index(
+            education = st.selectbox("Education Level *", 
+                                   ["Please select...", "Primary", "Secondary", "College/University", "Postgraduate"],
+                                   index=0 if st.session_state.user_profile.get('education', '') == '' else
+                                   ["Please select...", "Primary", "Secondary", "College/University", "Postgraduate"].index(
                                        st.session_state.user_profile.get('education', 'Secondary')))
-            employment = st.selectbox("Employment Status",
-                                    ["Employed", "Self-Employed", "Student", "Retired", "Unemployed"],
-                                    index=["Employed", "Self-Employed", "Student", "Retired", "Unemployed"].index(
+            employment = st.selectbox("Employment Status *",
+                                    ["Please select...", "Employed", "Self-Employed", "Student", "Retired", "Unemployed"],
+                                    index=0 if st.session_state.user_profile.get('employment', '') == '' else
+                                    ["Please select...", "Employed", "Self-Employed", "Student", "Retired", "Unemployed"].index(
                                         st.session_state.user_profile.get('employment', 'Employed')))
-            household_size = st.number_input("Household Size", min_value=1, max_value=20,
-                                           value=st.session_state.user_profile.get('household_size', 3))
+            household_size = st.number_input("Household Size *", min_value=1, max_value=20,
+                                           value=st.session_state.user_profile.get('household_size', 3), help="Required field")
         
+        # Validation
         if st.button("Next →", type="primary"):
-            st.session_state.user_profile.update({
-                'name': name, 'age': age, 'location': location,
-                'education': education, 'employment': employment,
-                'household_size': household_size
-            })
-            st.session_state.current_step = 2
-            st.rerun()
+            # Check for mandatory fields
+            errors = []
+            if not name or name.strip() == "":
+                errors.append("Full Name is required")
+            if location == "Please select...":
+                errors.append("Location Type is required")
+            if education == "Please select...":
+                errors.append("Education Level is required")
+            if employment == "Please select...":
+                errors.append("Employment Status is required")
+            
+            if errors:
+                for error in errors:
+                    st.error(f"❌ {error}")
+            else:
+                st.session_state.user_profile.update({
+                    'name': name, 'age': age, 'location': location,
+                    'education': education, 'employment': employment,
+                    'household_size': household_size
+                })
+                st.session_state.current_step = 2
+                st.rerun()
     
     # Step 2: Financial Information
     elif st.session_state.current_step == 2:
@@ -278,12 +613,12 @@ elif page == "💼 Recommendations":
         col1, col2 = st.columns(2)
         
         with col1:
-            monthly_income = st.number_input("Monthly Income (KES)", min_value=0, 
+            monthly_income = st.number_input("Monthly Income (KES) *", min_value=0, 
                                            value=st.session_state.user_profile.get('monthly_income', 30000),
-                                           step=5000)
-            monthly_expenses = st.number_input("Monthly Expenses (KES)", min_value=0,
+                                           step=5000, help="Required field")
+            monthly_expenses = st.number_input("Monthly Expenses (KES) *", min_value=0,
                                              value=st.session_state.user_profile.get('monthly_expenses', 20000),
-                                             step=1000)
+                                             step=1000, help="Required field")
             current_savings = st.number_input("Current Savings (KES)", min_value=0,
                                             value=st.session_state.user_profile.get('current_savings', 50000),
                                             step=10000)
@@ -294,9 +629,10 @@ elif page == "💼 Recommendations":
                                         step=5000)
             dependents = st.number_input("Number of Dependents", min_value=0, max_value=10,
                                        value=st.session_state.user_profile.get('dependents', 0))
-            emergency_fund = st.selectbox("Do you have an emergency fund?",
-                                        ["Yes", "No", "Partial"],
-                                        index=["Yes", "No", "Partial"].index(
+            emergency_fund = st.selectbox("Do you have an emergency fund? *",
+                                        ["Please select...", "Yes", "No", "Partial"],
+                                        index=0 if st.session_state.user_profile.get('emergency_fund', '') == '' else
+                                        ["Please select...", "Yes", "No", "Partial"].index(
                                             st.session_state.user_profile.get('emergency_fund', 'No')))
         
         col1, col2 = st.columns(2)
@@ -307,18 +643,33 @@ elif page == "💼 Recommendations":
         
         with col2:
             if st.button("Next →", type="primary"):
-                disposable_income = monthly_income - monthly_expenses
-                st.session_state.user_profile.update({
-                    'monthly_income': monthly_income,
-                    'monthly_expenses': monthly_expenses,
-                    'current_savings': current_savings,
-                    'debt_amount': debt_amount,
-                    'dependents': dependents,
-                    'emergency_fund': emergency_fund,
-                    'disposable_income': disposable_income
-                })
-                st.session_state.current_step = 3
-                st.rerun()
+                # Validation
+                errors = []
+                if monthly_income <= 0:
+                    errors.append("Monthly Income must be greater than 0")
+                if monthly_expenses < 0:
+                    errors.append("Monthly Expenses cannot be negative")
+                if monthly_expenses >= monthly_income:
+                    errors.append("Monthly Expenses should be less than Monthly Income")
+                if emergency_fund == "Please select...":
+                    errors.append("Emergency Fund status is required")
+                
+                if errors:
+                    for error in errors:
+                        st.error(f"❌ {error}")
+                else:
+                    disposable_income = monthly_income - monthly_expenses
+                    st.session_state.user_profile.update({
+                        'monthly_income': monthly_income,
+                        'monthly_expenses': monthly_expenses,
+                        'current_savings': current_savings,
+                        'debt_amount': debt_amount,
+                        'dependents': dependents,
+                        'emergency_fund': emergency_fund,
+                        'disposable_income': disposable_income
+                    })
+                    st.session_state.current_step = 3
+                    st.rerun()
     
     # Step 3: Investment Preferences
     elif st.session_state.current_step == 3:
@@ -327,40 +678,47 @@ elif page == "💼 Recommendations":
         col1, col2 = st.columns(2)
         
         with col1:
-            risk_tolerance = st.selectbox("Risk Tolerance",
-                                        ["Low - I prefer safe investments",
+            risk_tolerance = st.selectbox("Risk Tolerance *",
+                                        ["Please select...",
+                                         "Low - I prefer safe investments",
                                          "Medium - I can accept some risk for better returns",
                                          "High - I'm comfortable with high risk for high returns"],
-                                        index=["Low", "Medium", "High"].index(
-                                            st.session_state.user_profile.get('risk_tolerance', 'Medium')))
+                                        index=0 if st.session_state.user_profile.get('risk_tolerance', '') == '' else
+                                        ["Please select...", "Low", "Medium", "High"].index(
+                                            st.session_state.user_profile.get('risk_tolerance', 'Medium')) + 1)
             
-            investment_horizon = st.selectbox("Investment Time Horizon",
-                                            ["Short-term (< 2 years)",
+            investment_horizon = st.selectbox("Investment Time Horizon *",
+                                            ["Please select...",
+                                             "Short-term (< 2 years)",
                                              "Medium-term (2-5 years)",
                                              "Long-term (5+ years)"],
-                                            index=["Short-term (< 2 years)", "Medium-term (2-5 years)", "Long-term (5+ years)"].index(
+                                            index=0 if st.session_state.user_profile.get('investment_horizon', '') == '' else
+                                            ["Please select...", "Short-term (< 2 years)", "Medium-term (2-5 years)", "Long-term (5+ years)"].index(
                                                 st.session_state.user_profile.get('investment_horizon', 'Medium-term (2-5 years)')))
             
-            investment_amount = st.number_input("Amount to Invest (KES)", min_value=1000,
+            investment_amount = st.number_input("Amount to Invest (KES) *", min_value=1000,
                                               value=st.session_state.user_profile.get('investment_amount', 10000),
-                                              step=1000)
+                                              step=1000, help="Required field - Minimum KES 1,000")
         
         with col2:
-            investment_goals = st.multiselect("Investment Goals (Select all that apply)",
+            investment_goals = st.multiselect("Investment Goals * (Select at least one)",
                                             ["Retirement Planning", "Children's Education", 
                                              "Emergency Fund", "Wealth Building", 
                                              "Regular Income", "Home Purchase",
                                              "Business Investment", "Travel/Leisure"],
-                                            default=st.session_state.user_profile.get('investment_goals', []))
+                                            default=st.session_state.user_profile.get('investment_goals', []),
+                                            help="Required - Select at least one goal")
             
-            investment_experience = st.selectbox("Investment Experience",
-                                               ["Beginner - No prior experience",
+            investment_experience = st.selectbox("Investment Experience *",
+                                               ["Please select...",
+                                                "Beginner - No prior experience",
                                                 "Intermediate - Some experience",
                                                 "Advanced - Experienced investor"],
-                                               index=["Beginner", "Intermediate", "Advanced"].index(
-                                                   st.session_state.user_profile.get('investment_experience', 'Beginner')))
+                                               index=0 if st.session_state.user_profile.get('investment_experience', '') == '' else
+                                               ["Please select...", "Beginner", "Intermediate", "Advanced"].index(
+                                                   st.session_state.user_profile.get('investment_experience', 'Beginner')) + 1)
             
-            preferred_sectors = st.multiselect("Preferred Investment Sectors",
+            preferred_sectors = st.multiselect("Preferred Investment Sectors (Optional)",
                                              ["Government Securities", "Banking/Finance", "Real Estate",
                                               "Technology", "Agriculture", "Energy", "Manufacturing",
                                               "Telecommunications", "No Preference"],
@@ -374,18 +732,40 @@ elif page == "💼 Recommendations":
         
         with col2:
             if st.button("Get Recommendations →", type="primary"):
-                # Extract risk tolerance level
-                risk_level = risk_tolerance.split(' - ')[0]
-                st.session_state.user_profile.update({
-                    'risk_tolerance': risk_level,
-                    'investment_horizon': investment_horizon,
-                    'investment_amount': investment_amount,
-                    'investment_goals': investment_goals,
-                    'investment_experience': investment_experience,
-                    'preferred_sectors': preferred_sectors
-                })
-                st.session_state.current_step = 4
-                st.rerun()
+                # Validation
+                errors = []
+                if risk_tolerance == "Please select...":
+                    errors.append("Risk Tolerance is required")
+                if investment_horizon == "Please select...":
+                    errors.append("Investment Time Horizon is required")
+                if investment_amount < 1000:
+                    errors.append("Investment Amount must be at least KES 1,000")
+                if not investment_goals or len(investment_goals) == 0:
+                    errors.append("Please select at least one Investment Goal")
+                if investment_experience == "Please select...":
+                    errors.append("Investment Experience is required")
+                
+                # Check if investment amount exceeds disposable income
+                disposable_income = st.session_state.user_profile.get('disposable_income', 0)
+                if investment_amount > disposable_income:
+                    st.warning(f"⚠️ Your investment amount (KES {investment_amount:,}) exceeds your disposable income (KES {disposable_income:,}). Consider reducing the amount.")
+                
+                if errors:
+                    for error in errors:
+                        st.error(f"❌ {error}")
+                else:
+                    # Extract risk tolerance level
+                    risk_level = risk_tolerance.split(' - ')[0]
+                    st.session_state.user_profile.update({
+                        'risk_tolerance': risk_level,
+                        'investment_horizon': investment_horizon,
+                        'investment_amount': investment_amount,
+                        'investment_goals': investment_goals,
+                        'investment_experience': investment_experience.split(' - ')[0],
+                        'preferred_sectors': preferred_sectors
+                    })
+                    st.session_state.current_step = 4
+                    st.rerun()
     
     # Step 4: Recommendations
     elif st.session_state.current_step == 4:
@@ -460,15 +840,65 @@ elif page == "💼 Recommendations":
         risk_tolerance = st.session_state.user_profile.get('risk_tolerance', 'Medium')
         
         if risk_tolerance == 'Low':
-            allocation = {'Government Bonds': 40, 'Money Market Funds': 30, 'Bank Fixed Deposits': 20, 'Unit Trusts': 10}
+            allocation = {
+                'Government Bonds (Treasury Bonds)': 20,
+                'Treasury Bills (T-Bills)': 15,
+                'Money Market Funds': 15,
+                'Bank Fixed Deposits': 10,
+                'High-Yield Savings Accounts': 10,
+                'Pension Schemes (Individual & Occupational)': 10,
+                'Education Savings Plans': 10,
+                'Cooperative Society Investments (SACCOs)': 10
+                }
         elif risk_tolerance == 'Medium':
-            allocation = {'Unit Trusts': 30, 'REITs': 20, 'Government Bonds': 25, 'NSE Stocks': 15, 'SACCOs': 10}
+            allocation = {
+                'Unit Trusts/Mutual Funds': 15,
+                'Real Estate Investment': 15,
+                'Real Estate Investment Trusts (REITs)': 10,
+                'Nairobi Securities Exchange (NSE) Stocks': 10,
+                'Money Market Funds': 10,
+                'Government Bonds (Treasury Bonds)': 10,
+                'Treasury Bills (T-Bills)': 5,
+                'Cooperative Society Investments (SACCOs)': 5,
+                'Agricultural Investment': 10,
+                'Pension Schemes (Individual & Occupational)': 5,
+                'Education Savings Plans': 5
+                }
         else:  # High
-            allocation = {'NSE Stocks': 35, 'Unit Trusts': 25, 'Small Business': 15, 'Commodity Trading': 15, 'REITs': 10}
+            allocation = {
+                'Nairobi Securities Exchange (NSE) Stocks': 20,
+                'Commodity Trading': 15,
+                'Small Business Investment/Entrepreneurship': 15,
+                'Real Estate Investment Trusts (REITs)': 10,
+                'Unit Trusts/Mutual Funds': 10,
+                'Foreign Exchange (Forex) Trading': 10,
+                'Real Estate Investment': 5,
+                'Agricultural Investment': 5,
+                'Cooperative Society Investments (SACCOs)': 5,
+                'Government Bonds (Treasury Bonds)': 5
+                }
         
+        # Adjust pie chart colors based on theme
+        colors = ['#2E8B57', '#4682B4', '#FF9800', '#F44336', '#9C27B0'] if st.session_state.theme == 'light' else ['#4CAF50', '#81C784', '#FFA726', '#EF5350', '#BA68C8']
+        text_color = 'black' if st.session_state.theme == 'light' else 'white'
+
         fig = px.pie(values=list(allocation.values()), names=list(allocation.keys()), 
-                     title="Recommended Portfolio Distribution")
-        fig.update_traces(textposition='inside', textinfo='percent+label')
+                     title="Recommended Portfolio Distribution", color_discrete_sequence=colors)
+        fig.update_traces(
+                        textposition='outside', 
+                        textinfo='percent+label',
+                        outsidetextfont=dict(color=text_color)
+                        )
+        
+        # Adjust chart background based on theme
+        if st.session_state.theme == 'dark':
+            fig.update_layout(
+                plot_bgcolor='rgba(0,0,0,0)',
+                paper_bgcolor='rgba(0,0,0,0)',
+                font=dict(color=text_color),
+                legend=dict(font=dict(color=text_color))
+            )
+        
         st.plotly_chart(fig, use_container_width=True)
         
         # Action items
@@ -587,10 +1017,10 @@ elif page == "📊 Investments":
             with col2:
                 # Risk indicator
                 risk_colors = {
-                    'Low': '#28a745',
-                    'Medium': '#ffc107', 
-                    'High': '#dc3545',
-                    'Very High': '#6f42c1'
+                    'Low': '#28a745' if st.session_state.theme == 'light' else '#4CAF50',
+                    'Medium': '#ffc107' if st.session_state.theme == 'light' else '#FF9800', 
+                    'High': '#dc3545' if st.session_state.theme == 'light' else '#F44336',
+                    'Very High': '#6f42c1' if st.session_state.theme == 'light' else '#BA68C8'
                 }
                 
                 fig = go.Figure(go.Indicator(
@@ -615,6 +1045,15 @@ elif page == "📊 Investments":
                     }
                 ))
                 fig.update_layout(height=200, margin=dict(l=20, r=20, t=40, b=20))
+                
+                # Adjust gauge background based on theme
+                if st.session_state.theme == 'dark':
+                    fig.update_layout(
+                        plot_bgcolor='rgba(0,0,0,0)',
+                        paper_bgcolor='rgba(0,0,0,0)',
+                        font=dict(color='white')
+                    )
+                
                 st.plotly_chart(fig, use_container_width=True, key=f"risk_gauge_{name}")
             
             # Pros and Cons
@@ -904,12 +1343,13 @@ elif page == "📞 Contact":
 
 # Footer
 st.markdown("---")
-st.markdown("""
-<div style="text-align: center; padding: 2rem; background-color: #f8f9fa; border-radius: 10px; margin-top: 2rem;">
+footer_card_class = "card" if st.session_state.theme == 'light' else "card"
+st.markdown(f"""
+<div class="{footer_card_class}" style="text-align: center; margin-top: 2rem;">
     <h4>🏛️ Kenya Investment Advisor</h4>
     <p>Empowering Kenyans to make informed investment decisions</p>
     <p>© 2024 Kenya Investment Advisor. All rights reserved.</p>
-    <p style="font-size: 0.9rem; color: #666;">
+    <p style="font-size: 0.9rem; opacity: 0.8;">
         <strong>Disclaimer:</strong> This platform provides educational information and general investment guidance only. 
         It is not personalized investment advice. Please consult with qualified financial professionals before making investment decisions.
     </p>
