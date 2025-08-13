@@ -3,6 +3,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional, Dict, Any
 import uvicorn
+from fastapi.responses import RedirectResponse
+from pyngrok import ngrok
+import webbrowser
 import json
 from datetime import datetime
 import numpy as np
@@ -84,17 +87,8 @@ except Exception as e:
     system = InvestmentRecommendationSystem()
 
 @app.get("/")
-async def root():
-    return {
-        "message": "Kenya Investment Advisor API is running",
-        "version": "1.0.0",
-        "status": "healthy",
-        "endpoints": {
-            "recommendations": "/recommendations",
-            "products": "/products",
-            "health": "/health"
-        }
-    }
+async def redirect_root():
+    return RedirectResponse(url="/docs")
 
 @app.get("/model-status")
 async def get_model_status():
@@ -207,4 +201,7 @@ async def global_exception_handler(request, exc):
     }
 
 if __name__ == "__main__":
+    public_url = ngrok.connect(8000)
+    print(f"Public URL: {public_url} (will redirect to /docs)")
+    webbrowser.open(f"{public_url}/docs")
     uvicorn.run(app, host="localhost", port=8000, reload=False)
