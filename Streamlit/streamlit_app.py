@@ -967,7 +967,7 @@ elif page == "📊 Investments":
     st.markdown('<h1 class="main-header">📊 Kenya Investment Options Guide</h1>', unsafe_allow_html=True)
     
     # Filter options
-    col1, col2, col3 = st.columns(3)
+    col1, col2 = st.columns(2)
     
     with col1:
         risk_filter = st.selectbox("Filter by Risk Level", 
@@ -976,10 +976,6 @@ elif page == "📊 Investments":
     with col2:
         liquidity_filter = st.selectbox("Filter by Liquidity", 
                                       ["All", "High", "Medium", "Low", "Very Low"])
-    
-    with col3:
-        return_filter = st.selectbox("Sort by", 
-                                   ["Alphabetical", "Risk Level", "Expected Return"])
     
     # Get all products
     products = system.investment_products
